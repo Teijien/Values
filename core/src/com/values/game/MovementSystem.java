@@ -15,7 +15,7 @@ public class MovementSystem extends EntitySystem {
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(
                 Family.all(PositionComponent.class, VelocityComponent.class, MoveComponent.class,
-                                PlayerComponent.class, BodyComponent.class)
+                                PlayerComponent.class)
                         .get()
         );
     }
@@ -29,7 +29,6 @@ public class MovementSystem extends EntitySystem {
             PositionComponent position = Mappers.position.get(e);
             VelocityComponent velocity = Mappers.velocity.get(e);
             PlayerComponent player = Mappers.player.get(e);
-            Body body = Mappers.body.get(e).body;
 
             double dx;
             double dy;
@@ -46,8 +45,6 @@ public class MovementSystem extends EntitySystem {
 
             position.x += dx * deltaTime;
             position.y += dy * deltaTime;
-
-            body.setTransform(position.x, position.y, 0);
         }
     }
 

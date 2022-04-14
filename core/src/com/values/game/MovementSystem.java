@@ -5,6 +5,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.physics.box2d.Body;
 
 public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
@@ -13,8 +14,8 @@ public class MovementSystem extends EntitySystem {
 
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(
-                Family.all(PositionComponent.class, VelocityComponent.class, MoveComponent.class,
-                                PlayerComponent.class)
+                Family.all(MoveComponent.class, PlayerComponent.class, BodyComponent.class, VelocityComponent.class,
+                                PositionComponent.class)
                         .get()
         );
     }
@@ -25,9 +26,10 @@ public class MovementSystem extends EntitySystem {
                 break;
             }
 
-            PositionComponent position = Mappers.position.get(e);
             VelocityComponent velocity = Mappers.velocity.get(e);
+            PositionComponent position = Mappers.position.get(e);
             PlayerComponent player = Mappers.player.get(e);
+            Body body = Mappers.body.get(e).body;
 
             double dx;
             double dy;
@@ -42,8 +44,10 @@ public class MovementSystem extends EntitySystem {
                 dy = determineDir(player.down, player.up, vy);
             }
 
-            position.x += dx * deltaTime;
-            position.y += dy * deltaTime;
+            body.setLinearVelocity((float) dx, (float) dy);
+
+            position.x = body.getPosition().x;
+            position.y = body.getPosition().y;
         }
     }
 

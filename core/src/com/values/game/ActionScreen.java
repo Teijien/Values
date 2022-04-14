@@ -12,8 +12,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
-import javax.swing.*;
-
 public class ActionScreen implements Screen {
     final private ValuesGame game;
     private Engine engine;
@@ -36,12 +34,34 @@ public class ActionScreen implements Screen {
         player.add(new MeleeComponent((float) 0.1, new Sprite(new Texture(Gdx.files.internal("attack.png")))));
         player.add(new FacingComponent(2));
 
+        BodyDef playerDef = new BodyDef();
+        playerDef.type = BodyDef.BodyType.DynamicBody;
+        playerDef.position.set(8f, 8f);
+
+        Body playerBody = world.createBody(playerDef);
+        player.add(new BodyComponent(playerBody));
+
+        CircleShape circle = new CircleShape();
+        circle.setRadius(8);
+
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.isSensor = true;
+        playerBody.createFixture(fixtureDef);
+
         Entity enemy = new Entity();
         enemy.add(new PositionComponent(50, 50));
         enemy.add(new VelocityComponent(75, 75));
         enemy.add(new MoveComponent());
         enemy.add(new FacingComponent(2));
         enemy.add(new SpriteComponent(new Sprite(sprite)));
+
+        BodyDef enemyDef = new BodyDef();
+        enemyDef.type = BodyDef.BodyType.DynamicBody;
+        enemyDef.position.set(58, 58);
+        Body enemyBody = world.createBody(enemyDef);
+        enemyBody.createFixture(fixtureDef);
+        enemy.add(new BodyComponent(enemyBody));
 
         engine.addEntity(player);
         engine.addEntity(enemy);

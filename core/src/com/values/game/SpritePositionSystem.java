@@ -16,7 +16,7 @@ public class SpritePositionSystem extends IteratingSystem {
         Sprite sprite = Mappers.sprite.get(entity).sprite;
         PositionComponent position = Mappers.position.get(entity);
 
-        sprite.setX(position.x);
-        sprite.setY(position.y);
+        sprite.setX(position.x - 8);
+        sprite.setY(position.y - 8);
     }
 }

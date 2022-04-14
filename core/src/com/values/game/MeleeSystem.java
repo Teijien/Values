@@ -4,6 +4,7 @@ import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.physics.box2d.Body;
 
 import java.util.HashMap;
 
@@ -12,7 +13,7 @@ public class MeleeSystem extends IteratingSystem {
 
     public MeleeSystem() {
         super(Family.all(PositionComponent.class, MeleeComponent.class, MoveComponent.class,
-                        FacingComponent.class, SpriteComponent.class)
+                        FacingComponent.class, SpriteComponent.class, BodyComponent.class)
                 .get());
         originals = new HashMap<>();
     }
@@ -40,6 +41,7 @@ public class MeleeSystem extends IteratingSystem {
         if (melee.attacking) {
             PositionComponent position = Mappers.position.get(entity);
             FacingComponent face = Mappers.face.get(entity);
+            Body body = Mappers.body.get(entity).body;
 
             System.out.println(face.facing);
 
@@ -47,16 +49,20 @@ public class MeleeSystem extends IteratingSystem {
              * Need to travel a specified distance over a length of time. */
             switch (face.facing) {
                 case FacingComponent.UP:
-                    position.y += 125 * deltaTime;
+                    body.applyLinearImpulse(0f, 125f, 0f, 0f, true);
+                    position.y = body.getPosition().y;
                     break;
                 case FacingComponent.LEFT:
-                    position.x -= 125 * deltaTime;
+                    body.applyLinearImpulse(-125f, 0f, 0f, 0f, true);
+                    position.x = body.getPosition().x;
                     break;
                 case FacingComponent.DOWN:
-                    position.y -= 125 * deltaTime;
+                    body.applyLinearImpulse(0f, -125f, 0f, 0f, true);
+                    position.y = body.getPosition().y;
                     break;
                 case FacingComponent.RIGHT:
-                    position.x += 125 * deltaTime;
+                    body.applyLinearImpulse(125f, 0f, 0f, 0f, true);
+                    position.x = body.getPosition().x;
                     break;
             }
 

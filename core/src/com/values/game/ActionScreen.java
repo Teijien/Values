@@ -13,27 +13,29 @@ import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
 
 public class ActionScreen implements Screen {
-    final private ValuesGame game;
+    private final ValuesGame game;
     private Engine engine;
 
-
+    // Setup logic is put into constructor, due to no create() method.
     public ActionScreen(final ValuesGame game, Engine engine) {
         this.game = game;
         this.engine = engine;
+
         World world = new World(new Vector2(), true);
         world.setContactListener(new B2DContactListener());
 
         Sprite sprite = new Sprite(new Texture(Gdx.files.internal("twewy-rindo.png")), 16, 16);
 
+        // Player setup
         Entity player = new Entity();
         player.add(new PositionComponent(0, 0));
         player.add(new VelocityComponent(75, 75));
         player.add(new MoveComponent());
         player.add(new SpriteComponent(sprite));
         player.add(new PlayerComponent());
-        player.add(new MeleeComponent((float) 0.1, new Sprite(new Texture(Gdx.files.internal("attack.png")))));
         player.add(new FacingComponent(2));
 
+        // Setup player body
         BodyDef playerDef = new BodyDef();
         playerDef.type = BodyDef.BodyType.DynamicBody;
         playerDef.position.set(8f, 8f);
@@ -47,8 +49,29 @@ public class ActionScreen implements Screen {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.isSensor = true;
+        fixtureDef.filter.categoryBits = 0x01;
+        fixtureDef.filter.maskBits = 0x02;
+
         playerBody.createFixture(fixtureDef);
 
+        BodyDef hitbox = new BodyDef();
+        hitbox.type = BodyDef.BodyType.KinematicBody;
+        hitbox.allowSleep = false;
+
+        Body playerHitbox = world.createBody(hitbox);
+
+        // Attack definition
+        FixtureDef hitboxDef = new FixtureDef();
+        hitboxDef.shape = circle;
+        hitboxDef.isSensor = true;
+        hitboxDef.filter.categoryBits = 0x02;
+        hitboxDef.filter.maskBits = 0x00;
+
+        playerHitbox.createFixture(hitboxDef);
+
+        player.add(new MeleeComponent(playerHitbox));
+
+        // Enemy setup
         Entity enemy = new Entity();
         enemy.add(new PositionComponent(50, 50));
         enemy.add(new VelocityComponent(75, 75));
@@ -63,6 +86,7 @@ public class ActionScreen implements Screen {
         enemyBody.createFixture(fixtureDef);
         enemy.add(new BodyComponent(enemyBody));
 
+        // Add everything to the engine
         engine.addEntity(player);
         engine.addEntity(enemy);
         engine.addSystem(new MovementSystem());

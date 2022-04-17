@@ -101,7 +101,7 @@ public class ActionScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        ScreenUtils.clear(Color.BLACK);
+        ScreenUtils.clear(0.06f, 0.07f, 0.15f, 1);
 
         game.getView().getCamera().update();
 

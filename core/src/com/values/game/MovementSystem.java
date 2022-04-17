@@ -22,14 +22,16 @@ public class MovementSystem extends EntitySystem {
 
     public void update(float deltaTime) {
         for (Entity e : entities) {
+            Body body = Mappers.body.get(e).body;
+
             if (Mappers.move.get(e).stop) {
-                break;
+                body.setLinearVelocity(0, 0);
+                continue;
             }
 
             VelocityComponent velocity = Mappers.velocity.get(e);
             PositionComponent position = Mappers.position.get(e);
             PlayerComponent player = Mappers.player.get(e);
-            Body body = Mappers.body.get(e).body;
 
             double dx;
             double dy;

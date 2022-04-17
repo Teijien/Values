@@ -13,9 +13,13 @@ public class B2DContactListener implements ContactListener {
         Fixture fb = contact.getFixtureB();
 
         if (fa.getBody().getUserData() instanceof Entity) {
+            System.out.println("FA userData passed");
             Entity entity = (Entity) fa.getBody().getUserData();
             entityCollision(entity, fb);
-        } else if (fb.getBody().getUserData() instanceof Entity) {
+        }
+
+        if (fb.getBody().getUserData() instanceof Entity) {
+            System.out.println("FB userData passed");
             Entity entity = (Entity) fb.getBody().getUserData();
             entityCollision(entity, fa);
         }
@@ -29,7 +33,9 @@ public class B2DContactListener implements ContactListener {
 
             if (colA != null) {
                 colA.entity.add(colEnt);
-            } else if (colB != null) {
+            }
+
+            if (colB != null) {
                 colB.entity.add(entity);
             }
         }

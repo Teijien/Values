@@ -4,13 +4,14 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
+
+import java.util.HashSet;
 
 public class ActionScreen implements Screen {
     private final ValuesGame game;
@@ -59,6 +60,7 @@ public class ActionScreen implements Screen {
         hitbox.allowSleep = false;
 
         Body playerHitbox = world.createBody(hitbox);
+        playerHitbox.setUserData(player);
 
         // Attack definition
         FixtureDef hitboxDef = new FixtureDef();
@@ -78,11 +80,14 @@ public class ActionScreen implements Screen {
         enemy.add(new MoveComponent());
         enemy.add(new FacingComponent(2));
         enemy.add(new SpriteComponent(new Sprite(sprite)));
+        enemy.add(new CollisionComponent(new HashSet<Entity>()));
 
         BodyDef enemyDef = new BodyDef();
         enemyDef.type = BodyDef.BodyType.DynamicBody;
         enemyDef.position.set(58, 58);
+        enemyDef.linearDamping = 8f;
         Body enemyBody = world.createBody(enemyDef);
+        enemyBody.setUserData(enemy);
         enemyBody.createFixture(fixtureDef);
         enemy.add(new BodyComponent(enemyBody));
 
@@ -95,6 +100,7 @@ public class ActionScreen implements Screen {
         engine.addSystem(new RenderSystem(new SpriteBatch(), game.getView(), 2));
         engine.addSystem(new Box2DSystem(world));
         engine.addSystem(new Box2DDebugSystem(new Box2DDebugRenderer(), world, game.getView().getCamera()));
+        engine.addSystem(new CollisionSystem());
 
         Gdx.input.setInputProcessor(new GameProcessor(player));
     }

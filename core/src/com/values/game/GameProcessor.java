@@ -101,6 +101,7 @@ public class GameProcessor extends InputAdapter {
             case Input.Keys.SPACE:
                 MeleeComponent melee = player.getComponent(MeleeComponent.class);
                 melee.attack = state;
+                break;
             default:
                 return false;
         }

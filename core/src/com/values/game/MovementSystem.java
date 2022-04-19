@@ -48,8 +48,24 @@ public class MovementSystem extends EntitySystem {
 
             body.setLinearVelocity((float) dx, (float) dy);
 
+            // Keep player within bounds
             position.x = body.getPosition().x;
+            if (position.x < 8) {
+                body.setTransform(8, body.getPosition().y, 0);
+                position.x = 8;
+            } else if (position.x > 240 - 8) {
+                body.setTransform(240 - 8, body.getPosition().y, 0);
+                position.x = 240 - 8;
+            }
+
             position.y = body.getPosition().y;
+            if (position.y < 8) {
+                body.setTransform(body.getPosition().x, 8, 0);
+                position.y = 8;
+            } else if (position.y > 160 - 8) {
+                body.setTransform(body.getPosition().x, 160 - 8, 0);
+                position.y = 160 - 8;
+            }
         }
     }
 

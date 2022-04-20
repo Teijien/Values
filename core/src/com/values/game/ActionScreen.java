@@ -81,6 +81,7 @@ public class ActionScreen implements Screen {
         enemy.add(new FacingComponent(2));
         enemy.add(new SpriteComponent(new Sprite(sprite)));
         enemy.add(new CollisionComponent(new HashSet<Entity>()));
+        enemy.add(new EnemyComponent());
 
         BodyDef enemyDef = new BodyDef();
         enemyDef.type = BodyDef.BodyType.DynamicBody;

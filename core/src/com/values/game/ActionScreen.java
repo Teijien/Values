@@ -82,6 +82,7 @@ public class ActionScreen implements Screen {
         enemy.add(new SpriteComponent(new Sprite(sprite)));
         enemy.add(new CollisionComponent(new HashSet<Entity>()));
         enemy.add(new EnemyComponent());
+        enemy.add(new StateComponent());
 
         BodyDef enemyDef = new BodyDef();
         enemyDef.type = BodyDef.BodyType.DynamicBody;
@@ -102,6 +103,7 @@ public class ActionScreen implements Screen {
         engine.addSystem(new Box2DSystem(world));
         engine.addSystem(new Box2DDebugSystem(new Box2DDebugRenderer(), world, game.getView().getCamera()));
         engine.addSystem(new CollisionSystem());
+        engine.addSystem(new EnemySystem(player));
 
         Gdx.input.setInputProcessor(new GameProcessor(player));
     }

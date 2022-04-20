@@ -11,7 +11,7 @@ import java.util.Set;
 public class CollisionSystem extends IteratingSystem {
     public CollisionSystem() {
         // Only worries about player collisions
-        super(Family.all(CollisionComponent.class, BodyComponent.class).get());
+        super(Family.all(CollisionComponent.class, BodyComponent.class, StateComponent.class).get());
     }
 
     @Override
@@ -34,6 +34,9 @@ public class CollisionSystem extends IteratingSystem {
                 } else if (face == FacingComponent.RIGHT) {
                     body.applyLinearImpulse(125f, 0f, 0f, 0f, true);
                 }
+
+                StateComponent state = Mappers.state.get(entity);
+                state.state = StateComponent.STUN;
             }
         }
 

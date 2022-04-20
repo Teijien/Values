@@ -74,24 +74,7 @@ public class ActionScreen implements Screen {
         player.add(new MeleeComponent(playerHitbox));
 
         // Enemy setup
-        Entity enemy = new Entity();
-        enemy.add(new PositionComponent(50, 50));
-        enemy.add(new VelocityComponent(75, 75));
-        enemy.add(new MoveComponent());
-        enemy.add(new FacingComponent(2));
-        enemy.add(new SpriteComponent(new Sprite(sprite)));
-        enemy.add(new CollisionComponent(new HashSet<Entity>()));
-        enemy.add(new EnemyComponent());
-        enemy.add(new StateComponent());
-
-        BodyDef enemyDef = new BodyDef();
-        enemyDef.type = BodyDef.BodyType.DynamicBody;
-        enemyDef.position.set(58, 58);
-        enemyDef.linearDamping = 8f;
-        Body enemyBody = world.createBody(enemyDef);
-        enemyBody.setUserData(enemy);
-        enemyBody.createFixture(fixtureDef);
-        enemy.add(new BodyComponent(enemyBody));
+        Entity enemy = createEnemy(fixtureDef, sprite, world);
 
         // Add everything to the engine
         engine.addEntity(player);
@@ -142,5 +125,29 @@ public class ActionScreen implements Screen {
     @Override
     public void dispose() {
         engine = null;
+    }
+
+    private Entity createEnemy(FixtureDef fixtureDef, Sprite sprite, World world) {
+        Entity enemy = new Entity();
+
+        enemy.add(new PositionComponent(50, 50));
+        enemy.add(new VelocityComponent(75, 75));
+        enemy.add(new MoveComponent());
+        enemy.add(new FacingComponent(2));
+        enemy.add(new SpriteComponent(new Sprite(sprite)));
+        enemy.add(new CollisionComponent(new HashSet<Entity>()));
+        enemy.add(new EnemyComponent());
+        enemy.add(new StateComponent());
+
+        BodyDef enemyDef = new BodyDef();
+        enemyDef.type = BodyDef.BodyType.DynamicBody;
+        enemyDef.position.set(58, 58);
+        enemyDef.linearDamping = 8f;
+        Body enemyBody = world.createBody(enemyDef);
+        enemyBody.setUserData(enemy);
+        enemyBody.createFixture(fixtureDef);
+        enemy.add(new BodyComponent(enemyBody));
+
+        return enemy;
     }
 }

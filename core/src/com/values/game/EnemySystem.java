@@ -25,26 +25,26 @@ public class EnemySystem extends IteratingSystem {
         PositionComponent playerPos = Mappers.position.get(player);
         PositionComponent enemyPos = Mappers.position.get(entity);
 
-        if (enemyPos.x < playerPos.x) {
-            body.setLinearVelocity(20, 0);
+        if (enemyPos.x < playerPos.x - 0.5f) {
+            body.setLinearVelocity(50, 0);
 
-            if (body.getPosition().y < playerPos.y) {
-                body.setLinearVelocity(20, 20);
-            } else if (body.getPosition().y > playerPos.y) {
-                body.setLinearVelocity(20, -20);
+            if (body.getPosition().y < playerPos.y - 0.5f) {
+                body.setLinearVelocity(35.35f, 35.35f);
+            } else if (body.getPosition().y > playerPos.y + 0.5f) {
+                body.setLinearVelocity(35.35f, -35.35f);
             }
-        } else if (body.getPosition().x > playerPos.x) {
-            body.setLinearVelocity(-20, 0);
+        } else if (body.getPosition().x > playerPos.x + 0.5f) {
+            body.setLinearVelocity(-50, 0);
 
-            if (body.getPosition().y < playerPos.y) {
-                body.setLinearVelocity(-20, 20);
-            } else if (body.getPosition().y > playerPos.y) {
-                body.setLinearVelocity(-20, -20);
+            if (body.getPosition().y < playerPos.y - 0.5f) {
+                body.setLinearVelocity(-35.35f, 35.35f);
+            } else if (body.getPosition().y > playerPos.y + 0.5f) {
+                body.setLinearVelocity(-35.35f, -35.35f);
             }
-        } else if (body.getPosition().y < playerPos.y) {
-            body.setLinearVelocity(0, 20);
-        } else if (body.getPosition().y > playerPos.y) {
-            body.setLinearVelocity(0, -20);
+        } else if (body.getPosition().y < playerPos.y - 0.5f) {
+            body.setLinearVelocity(0, 50);
+        } else if (body.getPosition().y > playerPos.y + 0.5f) {
+            body.setLinearVelocity(0, -50);
         }
 
         enemyPos.x = body.getPosition().x;

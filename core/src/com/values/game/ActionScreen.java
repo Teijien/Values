@@ -74,11 +74,16 @@ public class ActionScreen implements Screen {
         player.add(new MeleeComponent(playerHitbox));
 
         // Enemy setup
-        Entity enemy = createEnemy(fixtureDef, sprite, world);
+        for (int i = 0; i < 3; i++) {
+            Entity enemy = createEnemy(fixtureDef, new Sprite(sprite), world);
+            PositionComponent position = Mappers.position.get(enemy);
+            position.x = 50 * (i + 1);
+            engine.addEntity(enemy);
+        }
 
         // Add everything to the engine
         engine.addEntity(player);
-        engine.addEntity(enemy);
+        //engine.addEntity(enemy);
         engine.addSystem(new MovementSystem());
         engine.addSystem(new MeleeSystem());
         engine.addSystem(new SpritePositionSystem(1));

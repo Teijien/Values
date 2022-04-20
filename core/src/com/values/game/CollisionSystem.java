@@ -26,13 +26,13 @@ public class CollisionSystem extends IteratingSystem {
                 int face = Mappers.face.get(e).facing;
 
                 if (face == FacingComponent.UP) {
-                    body.applyLinearImpulse(0f, 125f, 0f, 0f, true);
+                    body.applyLinearImpulse(0f, 175f, 0f, 0f, true);
                 } else if (face == FacingComponent.LEFT) {
-                    body.applyLinearImpulse(-125f, 0f, 0f, 0f, true);
+                    body.applyLinearImpulse(-175f, 0f, 0f, 0f, true);
                 } else if (face == FacingComponent.DOWN) {
-                    body.applyLinearImpulse(0f, -125f, 0f, 0f, true);
+                    body.applyLinearImpulse(0f, -175f, 0f, 0f, true);
                 } else if (face == FacingComponent.RIGHT) {
-                    body.applyLinearImpulse(125f, 0f, 0f, 0f, true);
+                    body.applyLinearImpulse(175f, 0f, 0f, 0f, true);
                 }
 
                 StateComponent state = Mappers.state.get(entity);

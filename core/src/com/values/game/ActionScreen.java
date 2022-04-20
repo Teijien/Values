@@ -73,11 +73,11 @@ public class ActionScreen implements Screen {
 
         player.add(new MeleeComponent(playerHitbox));
 
-        // Enemy setup
+        // Enemy setup NOT CREATING MULTIPLE ENEMIES
         for (int i = 0; i < 3; i++) {
             Entity enemy = createEnemy(fixtureDef, new Sprite(sprite), world);
-            PositionComponent position = Mappers.position.get(enemy);
-            position.x = 50 * (i + 1);
+            Body body = Mappers.body.get(enemy).body;
+            body.setTransform(50 * (i + 1), body.getPosition().y, 0);
             engine.addEntity(enemy);
         }
 

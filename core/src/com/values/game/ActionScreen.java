@@ -104,6 +104,7 @@ public class ActionScreen implements Screen {
         engine.addSystem(new Box2DDebugSystem(new Box2DDebugRenderer(), world, game.getView().getCamera()));
         engine.addSystem(new CollisionSystem());
         engine.addSystem(new EnemySystem(player));
+        engine.addSystem(new StateSystem());
 
         Gdx.input.setInputProcessor(new GameProcessor(player));
     }

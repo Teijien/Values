@@ -74,8 +74,8 @@ public class ActionScreen implements Screen {
         player.add(new MeleeComponent(playerHitbox));
 
         // Enemy setup NOT CREATING MULTIPLE ENEMIES
-        for (int i = 0; i < 3; i++) {
-            Entity enemy = createEnemy(fixtureDef, new Sprite(sprite), world);
+        for (int i = 0; i < 1; i++) {
+            Entity enemy = createEnemy(fixtureDef, new Sprite(sprite), world, hitbox);
             Body body = Mappers.body.get(enemy).body;
             body.setTransform(50 * (i + 1), body.getPosition().y, 0);
             engine.addEntity(enemy);
@@ -132,7 +132,7 @@ public class ActionScreen implements Screen {
         engine = null;
     }
 
-    private Entity createEnemy(FixtureDef fixtureDef, Sprite sprite, World world) {
+    private Entity createEnemy(FixtureDef fixtureDef, Sprite sprite, World world, BodyDef hitbox) {
         Entity enemy = new Entity();
 
         enemy.add(new PositionComponent(50, 50));
@@ -151,7 +151,22 @@ public class ActionScreen implements Screen {
         Body enemyBody = world.createBody(enemyDef);
         enemyBody.setUserData(enemy);
         enemyBody.createFixture(fixtureDef);
+
+        Filter filter = enemyBody.getFixtureList().get(0).getFilterData();
+        filter.categoryBits = 0x03;
+
         enemy.add(new BodyComponent(enemyBody));
+
+        CircleShape circle = new CircleShape();
+        circle.setRadius(8);
+
+        FixtureDef hitboxDef = new FixtureDef();
+        hitboxDef.shape = circle;
+        hitboxDef.isSensor = true;
+        hitboxDef.filter.categoryBits = 0x02;
+        hitboxDef.filter.maskBits = 0x01;
+
+        enemyBody.createFixture(hitboxDef);
 
         return enemy;
     }

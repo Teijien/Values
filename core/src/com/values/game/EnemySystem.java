@@ -10,7 +10,7 @@ public class EnemySystem extends IteratingSystem {
 
     public EnemySystem(Entity player) {
         super(Family.all(PositionComponent.class, BodyComponent.class, EnemyComponent.class,
-                StateComponent.class).get());
+                StateComponent.class, FacingComponent.class).get());
         this.player = player;
     }
 
@@ -24,27 +24,36 @@ public class EnemySystem extends IteratingSystem {
         Body body = Mappers.body.get(entity).body;
         PositionComponent playerPos = Mappers.position.get(player);
         PositionComponent enemyPos = Mappers.position.get(entity);
+        FacingComponent face = Mappers.face.get(entity);
 
         if (enemyPos.x < playerPos.x - 0.5f) {
             body.setLinearVelocity(50, 0);
+            face.facing = FacingComponent.RIGHT;
 
             if (body.getPosition().y < playerPos.y - 0.5f) {
                 body.setLinearVelocity(35.35f, 35.35f);
+                face.facing = FacingComponent.UP;
             } else if (body.getPosition().y > playerPos.y + 0.5f) {
                 body.setLinearVelocity(35.35f, -35.35f);
+                face.facing = FacingComponent.LEFT;
             }
         } else if (body.getPosition().x > playerPos.x + 0.5f) {
             body.setLinearVelocity(-50, 0);
+            face.facing = FacingComponent.LEFT;
 
             if (body.getPosition().y < playerPos.y - 0.5f) {
                 body.setLinearVelocity(-35.35f, 35.35f);
+                face.facing = FacingComponent.UP;
             } else if (body.getPosition().y > playerPos.y + 0.5f) {
                 body.setLinearVelocity(-35.35f, -35.35f);
+                face.facing = FacingComponent.DOWN;
             }
         } else if (body.getPosition().y < playerPos.y - 0.5f) {
             body.setLinearVelocity(0, 50);
+            face.facing = FacingComponent.UP;
         } else if (body.getPosition().y > playerPos.y + 0.5f) {
             body.setLinearVelocity(0, -50);
+            face.facing = FacingComponent.DOWN;
         }
 
         enemyPos.x = body.getPosition().x;

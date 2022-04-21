@@ -15,6 +15,7 @@ public class MeleeSystem extends IteratingSystem {
     public MeleeSystem() {
         super(Family.all(PositionComponent.class, MeleeComponent.class, MoveComponent.class,
                         FacingComponent.class, BodyComponent.class)
+                .exclude(EnemyComponent.class)
                 .get());
     }
 

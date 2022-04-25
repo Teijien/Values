@@ -5,26 +5,28 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
 
+import javax.swing.text.Position;
 import java.util.Set;
 
 /* Code used from https://www.gamedevelopment.blog/ashley-and-box2d-tutorial/ */
 public class CollisionSystem extends IteratingSystem {
     public CollisionSystem() {
-        // Only worries about player collisions
-        super(Family.all(CollisionComponent.class, BodyComponent.class, StateComponent.class).get());
+        super(Family.all(CollisionComponent.class, BodyComponent.class, PositionComponent.class).get());
     }
 
     @Override
     protected void processEntity(Entity entity, float deltaTime) {
+        // Fetch the list of entities collided with
         CollisionComponent cc = Mappers.collision.get(entity);
+        Set<Entity> collidedEntity = cc.entity;
 
-        Set<Entity> collidedEntity = cc.entity; // Store the collided entities in the entity's collision list
-
-        for (Entity e : collidedEntity) {
-            if (Mappers.melee.has(e) && Mappers.face.has(e)) {
+        for (Entity e : collidedEntity) {   // Check each entity collided with
+            if (Mappers.face.has(e)) {  // Check if the current collidedEntity has a FacingComponent
                 Body body = Mappers.body.get(entity).body;
+                PositionComponent position = Mappers.position.get(entity);
                 int face = Mappers.face.get(e).facing;
 
+                // Push the Entity in a direction based on where it's facing
                 if (face == FacingComponent.UP) {
                     body.applyLinearImpulse(0f, 175f, 0f, 0f, true);
                 } else if (face == FacingComponent.LEFT) {
@@ -37,9 +39,11 @@ public class CollisionSystem extends IteratingSystem {
 
                 StateComponent state = Mappers.state.get(entity);
                 state.state = StateComponent.STUN;
-            }
-        }
 
-        collidedEntity.clear();
+                System.out.println("Pushed");
+            }
+
+            collidedEntity.remove(e);   // This prevents collision logic more than once
+        }
     }
 }

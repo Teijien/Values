@@ -12,13 +12,12 @@ public class B2DContactListener implements ContactListener {
         Fixture fa = contact.getFixtureA();
         Fixture fb = contact.getFixtureB();
 
+        // Check if one of the Fixtures' Body has an associated Entity
         if (fa.getBody().getUserData() instanceof Entity) {
             System.out.println("FA userData passed");
             Entity entity = (Entity) fa.getBody().getUserData();
             entityCollision(entity, fb);
-        }
-
-        if (fb.getBody().getUserData() instanceof Entity) {
+        } else if (fb.getBody().getUserData() instanceof Entity) {
             System.out.println("FB userData passed");
             Entity entity = (Entity) fb.getBody().getUserData();
             entityCollision(entity, fa);
@@ -26,17 +25,20 @@ public class B2DContactListener implements ContactListener {
     }
 
     private void entityCollision(Entity entity, Fixture fb) {
-        if (fb.getBody().getUserData() instanceof Entity) {
+        if (fb.getBody().getUserData() instanceof Entity) { // Second check for asssociated Entity
             Entity colEnt = (Entity) fb.getBody().getUserData();
             CollisionComponent colA = entity.getComponent(CollisionComponent.class);
             CollisionComponent colB = colEnt.getComponent(CollisionComponent.class);
 
+            // Add Entities to the appropriate CollisionComponent
             if (colA != null) {
                 colA.entity.add(colEnt);
+                System.out.println("A added");
             }
 
             if (colB != null) {
                 colB.entity.add(entity);
+                System.out.println("B added");
             }
         }
     }

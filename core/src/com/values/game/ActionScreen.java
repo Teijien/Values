@@ -35,6 +35,8 @@ public class ActionScreen implements Screen {
         player.add(new SpriteComponent(sprite));
         player.add(new PlayerComponent());
         player.add(new FacingComponent(2));
+        player.add(new StateComponent());
+        player.add(new CollisionComponent(new HashSet<Entity>()));
 
         // Setup player body
         BodyDef playerDef = new BodyDef();
@@ -42,6 +44,7 @@ public class ActionScreen implements Screen {
         playerDef.position.set(8f, 8f);
 
         Body playerBody = world.createBody(playerDef);
+        playerBody.setUserData(player);
         player.add(new BodyComponent(playerBody));
 
         CircleShape circle = new CircleShape();
@@ -49,11 +52,12 @@ public class ActionScreen implements Screen {
 
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
-        fixtureDef.isSensor = true;
+        fixtureDef.isSensor = false;
         fixtureDef.filter.categoryBits = 0x01;
-        fixtureDef.filter.maskBits = 0x02;
+        fixtureDef.filter.maskBits = 0x04;
 
-        playerBody.createFixture(fixtureDef);
+        Fixture playerFix = playerBody.createFixture(fixtureDef);
+        playerFix.setUserData(player);
 
         BodyDef hitbox = new BodyDef();
         hitbox.type = BodyDef.BodyType.KinematicBody;
@@ -75,7 +79,7 @@ public class ActionScreen implements Screen {
 
         // Enemy setup NOT CREATING MULTIPLE ENEMIES
         for (int i = 0; i < 1; i++) {
-            Entity enemy = createEnemy(fixtureDef, new Sprite(sprite), world, hitbox);
+            Entity enemy = createEnemy(new Sprite(sprite), world);
             Body body = Mappers.body.get(enemy).body;
             body.setTransform(50 * (i + 1), body.getPosition().y, 0);
             engine.addEntity(enemy);
@@ -132,9 +136,10 @@ public class ActionScreen implements Screen {
         engine = null;
     }
 
-    private Entity createEnemy(FixtureDef fixtureDef, Sprite sprite, World world, BodyDef hitbox) {
+    private Entity createEnemy(Sprite sprite, World world) {
         Entity enemy = new Entity();
 
+        // Enemy components
         enemy.add(new PositionComponent(50, 50));
         enemy.add(new VelocityComponent(75, 75));
         enemy.add(new MoveComponent());
@@ -144,29 +149,41 @@ public class ActionScreen implements Screen {
         enemy.add(new EnemyComponent());
         enemy.add(new StateComponent());
 
+        // Create the enemy body
         BodyDef enemyDef = new BodyDef();
         enemyDef.type = BodyDef.BodyType.DynamicBody;
         enemyDef.position.set(58, 58);
         enemyDef.linearDamping = 8f;
         Body enemyBody = world.createBody(enemyDef);
         enemyBody.setUserData(enemy);
-        enemyBody.createFixture(fixtureDef);
+        //enemyBody.createFixture(fixtureDef);
 
-        Filter filter = enemyBody.getFixtureList().get(0).getFilterData();
-        filter.categoryBits = 0x03;
-
-        enemy.add(new BodyComponent(enemyBody));
-
+        // ShapeDef for fixtures
         CircleShape circle = new CircleShape();
         circle.setRadius(8);
 
+        // Set enemy body collision filter
+        FixtureDef fixtureDef = new FixtureDef();
+        fixtureDef.shape = circle;
+        fixtureDef.isSensor = false;
+        fixtureDef.filter.categoryBits = 0x03;
+        fixtureDef.filter.maskBits = 0x02;
+        enemyBody.createFixture(fixtureDef);
+        //Filter filter = enemyBody.getFixtureList().get(0).getFilterData();
+        //filter.categoryBits = 0x03;
+        //filter.maskBits = 0x02;
+
+        // FixtureDef for enemy hitbox
         FixtureDef hitboxDef = new FixtureDef();
         hitboxDef.shape = circle;
         hitboxDef.isSensor = true;
-        hitboxDef.filter.categoryBits = 0x02;
+        hitboxDef.filter.categoryBits = 0x04;
         hitboxDef.filter.maskBits = 0x01;
 
-        enemyBody.createFixture(hitboxDef);
+        Fixture f = enemyBody.createFixture(hitboxDef);
+        f.setUserData(enemy);
+
+        enemy.add(new BodyComponent(enemyBody));
 
         return enemy;
     }

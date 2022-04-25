@@ -21,10 +21,27 @@ public class EnemySystem extends IteratingSystem {
             return;
         }
 
+        // Logic for collision with hitbox, which should overlap the body
+        /*
+        CollisionComponent collision = Mappers.collision.get(entity);
+        for (Entity e : collision.entity) {
+            if (Mappers.body.has(e)) {
+                Body body = Mappers.body.get(e).body;
+                if (face.facing == FacingComponent.UP) {
+                    body.applyLinearImpulse(0, 0, 125, 0, true);
+                    System.out.println("Hit");
+                } else if (face.facing == FacingComponent.RIGHT) {
+                    body.applyLinearImpulse(125, 0, 0, 0, true);
+                }
+            }
+            collision.entity.remove(e);
+        }
+        */
+        FacingComponent face = Mappers.face.get(entity);
+
         Body body = Mappers.body.get(entity).body;
         PositionComponent playerPos = Mappers.position.get(player);
         PositionComponent enemyPos = Mappers.position.get(entity);
-        FacingComponent face = Mappers.face.get(entity);
 
         if (enemyPos.x < playerPos.x - 0.5f) {
             body.setLinearVelocity(50, 0);

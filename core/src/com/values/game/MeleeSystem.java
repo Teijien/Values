@@ -56,7 +56,6 @@ public class MeleeSystem extends IteratingSystem {
             filter.maskBits = 0x01;
             melee.hitbox.getFixtureList().get(0).setFilterData(filter);
 
-            // Dash in the specified direction
             switch (face.facing) {
                 case FacingComponent.UP:
                     //body.applyLinearImpulse(0f, 125f, 0f, 0f, true);
@@ -91,7 +90,7 @@ public class MeleeSystem extends IteratingSystem {
 
 
             melee.deltaTime += deltaTime;
-            System.out.println(melee.deltaTime);
+            //System.out.println(melee.deltaTime);
 
             /* Resume taking input if finished */
             if (melee.deltaTime >= melee.attackLength) {

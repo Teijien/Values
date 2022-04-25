@@ -9,8 +9,11 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
+    private float accumulator;
 
-    public MovementSystem() {}
+    public MovementSystem() {
+        accumulator = 0;
+    }
 
     public void addedToEngine(Engine engine) {
         entities = engine.getEntitiesFor(
@@ -26,6 +29,15 @@ public class MovementSystem extends EntitySystem {
 
             if (Mappers.move.get(e).stop) {
                 body.setLinearVelocity(0, 0);
+                continue;
+            }
+
+            if (Mappers.state.get(e).state == StateComponent.STUN) {
+                accumulator += deltaTime;
+                if (accumulator >= 0.1f) {
+                    Mappers.state.get(e).state = StateComponent.WALK;
+                    accumulator = 0;
+                }
                 continue;
             }
 
@@ -46,6 +58,7 @@ public class MovementSystem extends EntitySystem {
                 dy = determineDir(player.down, player.up, vy);
             }
 
+            // The line that actually moves the player
             body.setLinearVelocity((float) dx, (float) dy);
 
             // Keep player within bounds

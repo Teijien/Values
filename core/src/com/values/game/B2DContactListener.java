@@ -13,11 +13,11 @@ public class B2DContactListener implements ContactListener {
         Fixture fb = contact.getFixtureB();
 
         // Check if one of the Fixtures' Body has an associated Entity
-        if (fa.getBody().getUserData() instanceof Entity) {
+        if (fa.getBody().getUserData() instanceof Entity && !fa.isSensor()) {
             System.out.println("FA userData passed");
             Entity entity = (Entity) fa.getBody().getUserData();
             entityCollision(entity, fb);
-        } else if (fb.getBody().getUserData() instanceof Entity) {
+        } else if (fb.getBody().getUserData() instanceof Entity && !fb.isSensor()) {
             System.out.println("FB userData passed");
             Entity entity = (Entity) fb.getBody().getUserData();
             entityCollision(entity, fa);
@@ -36,7 +36,7 @@ public class B2DContactListener implements ContactListener {
                 System.out.println("A added");
             }
 
-            if (colB != null) {
+            if (colB != null && !fb.isSensor()) {
                 colB.entity.add(entity);
                 System.out.println("B added");
             }

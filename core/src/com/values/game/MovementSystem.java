@@ -9,7 +9,7 @@ import com.badlogic.gdx.physics.box2d.Body;
 
 public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
-    private float accumulator;
+    private float accumulator;  // Used to track time that the player is affected by knockback
 
     public MovementSystem() {
         accumulator = 0;
@@ -27,11 +27,13 @@ public class MovementSystem extends EntitySystem {
         for (Entity e : entities) {
             Body body = Mappers.body.get(e).body;
 
+            // Check if player should be stopped
             if (Mappers.move.get(e).stop) {
                 body.setLinearVelocity(0, 0);
                 continue;
             }
 
+            // Logic when hit by enemy
             if (Mappers.state.get(e).state == StateComponent.STUN) {
                 accumulator += deltaTime;
                 if (accumulator >= 0.1f) {

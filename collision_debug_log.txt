@@ -1,0 +1,25 @@
+### Collision Filter
+1 - player body
+2 - player hitbox
+3 - enemy body
+4 - enemy hitbox
+
+### Collision Debug Checklist
+Player isn't being affected by impulses in the CollisionSystem
+
+- B2DContactListener
+    - Acts on anything with a CollisionComponent & BodyComponent
+    - beginContact()
+    - entityCollision()
+- CollisionSystem
+    - processEntity()
+- ActionScreen
+    - playerBody.setUserData(player)
+    - playerFix.setUserData(player)
+    - enemyBody.setUserData(enemy)
+
+- Forces are being applied to both bodies, but player body isn't
+  moving
+- Player body is waking on collision with enemy
+- CollisionSystem added to engine
+- Tried updating PositionComponent after applying impulse

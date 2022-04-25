@@ -5,7 +5,6 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.systems.IteratingSystem;
 import com.badlogic.gdx.physics.box2d.Body;
 
-import javax.swing.text.Position;
 import java.util.Set;
 
 /* Code used from https://www.gamedevelopment.blog/ashley-and-box2d-tutorial/ */
@@ -23,18 +22,17 @@ public class CollisionSystem extends IteratingSystem {
         for (Entity e : collidedEntity) {   // Check each entity collided with
             if (Mappers.face.has(e)) {  // Check if the current collidedEntity has a FacingComponent
                 Body body = Mappers.body.get(entity).body;
-                PositionComponent position = Mappers.position.get(entity);
                 int face = Mappers.face.get(e).facing;
 
                 // Push the Entity in a direction based on where it's facing
                 if (face == FacingComponent.UP) {
-                    body.applyLinearImpulse(0f, 175f, 0f, 0f, true);
+                    body.applyLinearImpulse(0f, 200f, 0f, 0f, true);
                 } else if (face == FacingComponent.LEFT) {
-                    body.applyLinearImpulse(-175f, 0f, 0f, 0f, true);
+                    body.applyLinearImpulse(-200f, 0f, 0f, 0f, true);
                 } else if (face == FacingComponent.DOWN) {
-                    body.applyLinearImpulse(0f, -175f, 0f, 0f, true);
+                    body.applyLinearImpulse(0f, -200f, 0f, 0f, true);
                 } else if (face == FacingComponent.RIGHT) {
-                    body.applyLinearImpulse(175f, 0f, 0f, 0f, true);
+                    body.applyLinearImpulse(200f, 0f, 0f, 0f, true);
                 }
 
                 StateComponent state = Mappers.state.get(entity);

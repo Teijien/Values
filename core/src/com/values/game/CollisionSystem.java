@@ -41,7 +41,9 @@ public class CollisionSystem extends IteratingSystem {
                 System.out.println("Pushed");
             }
 
-            collidedEntity.remove(e);   // This prevents collision logic more than once
+            //collidedEntity.remove(e);   // This causes a ConcurrentModificationException!
         }
+
+        collidedEntity.clear(); // Clearing the set after iterating through prevents the exception!
     }
 }

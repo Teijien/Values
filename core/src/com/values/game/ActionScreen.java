@@ -77,7 +77,7 @@ public class ActionScreen implements Screen {
 
         player.add(new MeleeComponent(playerHitbox));
 
-        for (int i = 0; i < 1; i++) {
+        for (int i = 0; i < 3; i++) {
             Entity enemy = createEnemy(new Sprite(sprite), world);
             Body body = Mappers.body.get(enemy).body;
             body.setTransform(50 * (i + 1), body.getPosition().y, 0);
@@ -167,9 +167,6 @@ public class ActionScreen implements Screen {
         fixtureDef.filter.categoryBits = 0x03;
         fixtureDef.filter.maskBits = 0x02;
         enemyBody.createFixture(fixtureDef);
-        //Filter filter = enemyBody.getFixtureList().get(0).getFilterData();
-        //filter.categoryBits = 0x03;
-        //filter.maskBits = 0x02;
 
         // FixtureDef for enemy hitbox
         FixtureDef hitboxDef = new FixtureDef();

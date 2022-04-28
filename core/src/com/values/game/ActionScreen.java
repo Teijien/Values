@@ -14,6 +14,11 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import java.util.HashSet;
 
 public class ActionScreen implements Screen {
+    public static final int PLAYER_BODY = 0b00000001;
+    public static final int PLAYER_HITBOX = 0b00000010;
+    public static final int ENEMY_BODY = 0b00000100;
+    public static final int ENEMY_HITBOX = 0b00001000;
+
     private final ValuesGame game;
     private Engine engine;
 
@@ -53,8 +58,8 @@ public class ActionScreen implements Screen {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.isSensor = false;
-        fixtureDef.filter.categoryBits = 0x01;
-        fixtureDef.filter.maskBits = 0x04;
+        fixtureDef.filter.categoryBits = PLAYER_BODY;
+        fixtureDef.filter.maskBits = ENEMY_HITBOX;
 
         Fixture playerFix = playerBody.createFixture(fixtureDef);
         playerFix.setUserData(player);
@@ -70,8 +75,8 @@ public class ActionScreen implements Screen {
         FixtureDef hitboxDef = new FixtureDef();
         hitboxDef.shape = circle;
         hitboxDef.isSensor = true;
-        hitboxDef.filter.categoryBits = 0x02;
-        hitboxDef.filter.maskBits = 0x00;
+        hitboxDef.filter.categoryBits = PLAYER_HITBOX;
+        hitboxDef.filter.maskBits = ENEMY_BODY;
 
         playerHitbox.createFixture(hitboxDef);
 
@@ -164,16 +169,16 @@ public class ActionScreen implements Screen {
         FixtureDef fixtureDef = new FixtureDef();
         fixtureDef.shape = circle;
         fixtureDef.isSensor = false;
-        fixtureDef.filter.categoryBits = 0x03;
-        fixtureDef.filter.maskBits = 0x02;
+        fixtureDef.filter.categoryBits = ENEMY_BODY;
+        fixtureDef.filter.maskBits = PLAYER_HITBOX;
         enemyBody.createFixture(fixtureDef);
 
         // FixtureDef for enemy hitbox
         FixtureDef hitboxDef = new FixtureDef();
         hitboxDef.shape = circle;
         hitboxDef.isSensor = true;
-        hitboxDef.filter.categoryBits = 0x04;
-        hitboxDef.filter.maskBits = 0x01;
+        hitboxDef.filter.categoryBits = ENEMY_HITBOX;
+        hitboxDef.filter.maskBits = PLAYER_BODY;
 
         Fixture f = enemyBody.createFixture(hitboxDef);
         f.setUserData(enemy);

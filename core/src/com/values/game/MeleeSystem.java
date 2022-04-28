@@ -53,7 +53,7 @@ public class MeleeSystem extends IteratingSystem {
             System.out.println(face.facing);
 
             Filter filter = melee.hitbox.getFixtureList().get(0).getFilterData();
-            filter.maskBits = 0x01;
+            filter.maskBits = ActionScreen.ENEMY_BODY;
             melee.hitbox.getFixtureList().get(0).setFilterData(filter);
 
             switch (face.facing) {
@@ -100,7 +100,7 @@ public class MeleeSystem extends IteratingSystem {
                 melee.currSprite = null;
 
                 // Make hitbox inactive
-                filter.maskBits = 0x00;
+                filter.maskBits = 0;
                 melee.hitbox.getFixtureList().get(0).setFilterData(filter);
             }
         }

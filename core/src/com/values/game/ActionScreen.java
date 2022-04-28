@@ -68,10 +68,10 @@ public class ActionScreen implements Screen {
         hitbox.type = BodyDef.BodyType.KinematicBody;
         hitbox.allowSleep = false;
 
+        // Attack definition
         Body playerHitbox = world.createBody(hitbox);
         playerHitbox.setUserData(player);
 
-        // Attack definition
         FixtureDef hitboxDef = new FixtureDef();
         hitboxDef.shape = circle;
         hitboxDef.isSensor = true;

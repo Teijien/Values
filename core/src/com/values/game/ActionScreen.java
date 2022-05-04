@@ -4,9 +4,13 @@ import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -21,11 +25,15 @@ public class ActionScreen implements Screen {
 
     private final ValuesGame game;
     private Engine engine;
+    private final OrthogonalTiledMapRenderer renderer;
 
     // Setup logic is put into constructor, due to no create() method.
     public ActionScreen(final ValuesGame game, Engine engine) {
         this.game = game;
         this.engine = engine;
+
+        TiledMap map = new TmxMapLoader().load("floor.tmx");
+        renderer = new OrthogonalTiledMapRenderer(map);
 
         World world = new World(new Vector2(), true);
         world.setContactListener(new B2DContactListener());
@@ -82,7 +90,7 @@ public class ActionScreen implements Screen {
 
         player.add(new MeleeComponent(playerHitbox));
 
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 1; i++) {
             Entity enemy = createEnemy(new Sprite(sprite), world);
             Body body = Mappers.body.get(enemy).body;
             body.setTransform(50 * (i + 1), body.getPosition().y, 0);
@@ -109,6 +117,9 @@ public class ActionScreen implements Screen {
         ScreenUtils.clear(0.06f, 0.07f, 0.15f, 1);
 
         game.getView().getCamera().update();
+
+        renderer.setView((OrthographicCamera) game.getView().getCamera());
+        renderer.render();
 
         engine.update(delta);
     }

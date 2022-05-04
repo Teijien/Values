@@ -2,8 +2,11 @@ package com.values.game;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 public class RenderSystem extends EntitySystem {
@@ -27,6 +30,7 @@ public class RenderSystem extends EntitySystem {
     @Override
     public void update(float deltaTime) {
         batch.setProjectionMatrix(view.getCamera().combined);
+
         batch.begin();
 
         for (Entity e: entities) {

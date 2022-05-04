@@ -60,6 +60,7 @@ public class MeleeSystem extends IteratingSystem {
                 case FacingComponent.UP:
                     //body.applyLinearImpulse(0f, 125f, 0f, 0f, true);
                     melee.currSprite = melee.sprite;
+                    melee.currSprite.rotate90(false);
                     melee.currSprite.setPosition(body.getPosition().x - 8, body.getPosition().y + 10 - 8);
                     melee.hitbox.setTransform(melee.currSprite.getX() + 8, melee.currSprite.getY() + 10, 0);
                     position.y = body.getPosition().y;
@@ -67,6 +68,7 @@ public class MeleeSystem extends IteratingSystem {
                 case FacingComponent.LEFT:
                     //body.applyLinearImpulse(-125f, 0f, 0f, 0f, true);
                     melee.currSprite = melee.sprite;
+                    melee.currSprite.rotate90(false);
                     melee.currSprite.setPosition(body.getPosition().x - 10 - 8, body.getPosition().y - 8);
                     melee.hitbox.setTransform(melee.currSprite.getX() + 6, melee.currSprite.getY() + 8, 0);
                     position.x = body.getPosition().x;
@@ -74,6 +76,7 @@ public class MeleeSystem extends IteratingSystem {
                 case FacingComponent.DOWN:
                     //body.applyLinearImpulse(0f, -125f, 0f, 0f, true);
                     melee.currSprite = melee.sprite;
+                    melee.currSprite.rotate90(false);
                     melee.currSprite.setPosition(body.getPosition().x - 8, body.getPosition().y - 10 - 8);
                     melee.hitbox.setTransform(melee.currSprite.getX() + 8, melee.currSprite.getY() + 6, 0);
                     position.y = body.getPosition().y;
@@ -81,6 +84,7 @@ public class MeleeSystem extends IteratingSystem {
                 case FacingComponent.RIGHT:
                     //body.applyLinearImpulse(125f, 0f, 0f, 0f, true);
                     melee.currSprite = melee.sprite;
+                    melee.currSprite.rotate90(false);
                     melee.currSprite.setPosition(body.getPosition().x + 10 - 8, body.getPosition().y - 8);
                     melee.hitbox.setTransform(melee.currSprite.getX() + 10, melee.currSprite.getY() + 8, 0);
                     position.x = body.getPosition().x;

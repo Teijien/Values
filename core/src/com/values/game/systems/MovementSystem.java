@@ -1,4 +1,4 @@
-package com.values.game;
+package com.values.game.systems;
 
 import com.badlogic.ashley.core.Engine;
 import com.badlogic.ashley.core.Entity;
@@ -6,6 +6,8 @@ import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.physics.box2d.Body;
+import com.values.game.Mappers;
+import com.values.game.components.*;
 
 public class MovementSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;

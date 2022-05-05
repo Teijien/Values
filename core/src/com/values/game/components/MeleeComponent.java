@@ -1,4 +1,4 @@
-package com.values.game;
+package com.values.game.components;
 
 import com.badlogic.ashley.core.Component;
 import com.badlogic.gdx.Gdx;

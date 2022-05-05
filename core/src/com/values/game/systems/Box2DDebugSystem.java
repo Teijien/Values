@@ -1,4 +1,4 @@
-package com.values.game;
+package com.values.game.systems;
 
 import com.badlogic.ashley.core.EntitySystem;
 import com.badlogic.gdx.graphics.Camera;

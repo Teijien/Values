@@ -3,6 +3,10 @@ package com.values.game;
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputAdapter;
+import com.values.game.components.FacingComponent;
+import com.values.game.components.MeleeComponent;
+import com.values.game.components.MoveComponent;
+import com.values.game.components.PlayerComponent;
 
 public class GameProcessor extends InputAdapter {
     private final Entity player;

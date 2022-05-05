@@ -2,6 +2,7 @@ package com.values.game;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.gdx.physics.box2d.*;
+import com.values.game.components.CollisionComponent;
 
 /* Code used from https://www.gamedevelopment.blog/ashley-and-box2d-tutorial/ */
 public class B2DContactListener implements ContactListener {

@@ -1,4 +1,4 @@
-package com.values.game;
+package com.values.game.systems;
 
 import com.badlogic.ashley.core.Entity;
 import com.badlogic.ashley.core.EntitySystem;
@@ -6,6 +6,9 @@ import com.badlogic.ashley.core.Family;
 import com.badlogic.ashley.utils.ImmutableArray;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.World;
+import com.values.game.Mappers;
+import com.values.game.components.BodyComponent;
+import com.values.game.components.PositionComponent;
 
 /* Code used from https://www.gamedevelopment.blog/ashley-and-box2d-tutorial/ */
 public class Box2DSystem extends EntitySystem {

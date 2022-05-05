@@ -1,6 +1,7 @@
 package com.values.game;
 
 import com.badlogic.ashley.core.ComponentMapper;
+import com.values.game.components.*;
 
 public class Mappers {
     public static final ComponentMapper<PositionComponent> position = ComponentMapper.getFor(PositionComponent.class);

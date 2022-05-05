@@ -1,13 +1,13 @@
-package com.values.game;
+package com.values.game.systems;
 
 import com.badlogic.ashley.core.*;
 import com.badlogic.ashley.utils.ImmutableArray;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.utils.viewport.Viewport;
+import com.values.game.Mappers;
+import com.values.game.components.MeleeComponent;
+import com.values.game.components.SpriteComponent;
 
 public class RenderSystem extends EntitySystem {
     private ImmutableArray<Entity> entities;
